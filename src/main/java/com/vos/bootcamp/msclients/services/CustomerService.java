@@ -10,7 +10,7 @@ public interface CustomerService {
 
     public Mono<Customer> findById(String id);
 
-    public Mono<Customer> create(Customer customer);
+    public Mono<Customer> save(Customer customer);
 
     public Mono<Void> delete(Customer customer);
 
