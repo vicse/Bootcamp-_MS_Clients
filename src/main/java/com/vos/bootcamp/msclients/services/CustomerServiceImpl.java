@@ -1,17 +1,17 @@
 package com.vos.bootcamp.msclients.services;
 
 import com.vos.bootcamp.msclients.models.Customer;
-import com.vos.bootcamp.msclients.repositories.CustomerRepository;
+import com.vos.bootcamp.msclients.repositories.ICustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl implements ICustomerService {
 
     @Autowired
-    private CustomerRepository repository;
+    private ICustomerRepository repository;
 
     @Override
     public Flux<Customer> findAll() {
@@ -24,7 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Mono<Customer> create(Customer customer) {
+    public Mono<Customer> save(Customer customer) {
         return repository.save(customer);
     }
 

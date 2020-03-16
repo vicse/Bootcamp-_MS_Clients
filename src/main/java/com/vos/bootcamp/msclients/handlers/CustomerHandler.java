@@ -1,7 +1,7 @@
 package com.vos.bootcamp.msclients.handlers;
 
 import com.vos.bootcamp.msclients.models.Customer;
-import com.vos.bootcamp.msclients.services.CustomerService;
+import com.vos.bootcamp.msclients.services.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -23,7 +23,7 @@ import java.net.URI;
 public class CustomerHandler {
 
     @Autowired
-    private CustomerService service;
+    private ICustomerService service;
 
     @Qualifier("webFluxValidator")
     @Autowired

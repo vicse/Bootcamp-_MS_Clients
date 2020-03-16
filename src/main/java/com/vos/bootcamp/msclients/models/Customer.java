@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 
-@Document
+@Document(collection = "ms_customers")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

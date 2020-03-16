@@ -4,7 +4,7 @@ import com.vos.bootcamp.msclients.models.Customer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface CustomerService {
+public interface ICustomerService {
 
     public Flux<Customer> findAll();
 
