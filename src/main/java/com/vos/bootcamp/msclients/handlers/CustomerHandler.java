@@ -69,7 +69,7 @@ public class CustomerHandler {
 
             if (errors.hasErrors()) {
                 return Flux.fromIterable(errors.getFieldErrors())
-                        .map(fieldError -> "El campo " + fieldError.getField() + " " + fieldError.getDefaultMessage())
+                        .map(fieldError -> "The field " + fieldError.getField() + " " + fieldError.getDefaultMessage())
                         .collectList()
                         .flatMap(list -> ServerResponse.badRequest().body(fromValue(list)));
             } else {

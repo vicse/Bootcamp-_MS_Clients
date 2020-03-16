@@ -19,7 +19,7 @@ public class RouterFunctionConfig {
         return route(GET("/api/customers"), customerHandler::getAllCustomers)
                 .andRoute(GET("/api/customers/{id}"), customerHandler::getByIdCustomer)
                 .andRoute(POST("/api/customers"), customerHandler::createCustomer)
-                .andRoute(PUT("//api/customers/{id}"), customerHandler::updateCustomer)
+                .andRoute(PUT("/api/customers/{id}"), customerHandler::updateCustomer)
                 .andRoute(DELETE("/api/customers/{id}"), customerHandler::deleteCustomer);
 
     }
