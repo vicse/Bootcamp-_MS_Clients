@@ -29,7 +29,32 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
+    public Mono<Customer> update(String id, Customer customer) {
+        return repository.findById(id).flatMap( customerDB -> {
+
+            if (customer.getNames() == null) customerDB.setNames(customerDB.getNames());
+            else customerDB.setNames(customer.getNames());
+
+            if (customer.getSurnames() == null) customerDB.setSurnames(customerDB.getSurnames());
+            else customerDB.setSurnames(customer.getSurnames());
+
+            if (customer.getPhoneNumber() == null) customerDB.setPhoneNumber(customerDB.getPhoneNumber());
+            else customerDB.setPhoneNumber(customer.getPhoneNumber());
+
+            if (customer.getAddress() == null) customerDB.setAddress(customerDB.getAddress());
+            else customerDB.setAddress(customer.getAddress());
+
+            return repository.save(customerDB);
+        });
+    }
+
+    @Override
     public Mono<Void> delete(Customer customer) {
         return repository.delete(customer);
+    }
+
+    @Override
+    public Mono<Void> deleteById(String id) {
+        return repository.deleteById(id);
     }
 }

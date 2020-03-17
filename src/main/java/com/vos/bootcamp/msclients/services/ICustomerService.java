@@ -12,6 +12,10 @@ public interface ICustomerService {
 
     public Mono<Customer> save(Customer customer);
 
+    public Mono<Customer> update(String id, Customer customer);
+
     public Mono<Void> delete(Customer customer);
+
+    public Mono<Void> deleteById(String id);
 
 }
