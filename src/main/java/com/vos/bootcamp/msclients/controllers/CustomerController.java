@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/v2/customers")
+@RequestMapping("/api/customers")
 public class CustomerController {
 
     @Autowired
