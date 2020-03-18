@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -21,7 +22,8 @@ public class SwaggerConfig {
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.vos.bootcamp.msclients.controllers"))
+                .paths(PathSelectors.regex("/api/.*"))
                 .build().apiInfo(apiEndPointsInfo());
 
     }
