@@ -4,6 +4,7 @@ import com.vos.bootcamp.msclients.models.Customer;
 import com.vos.bootcamp.msclients.models.TypeCustomer;
 import com.vos.bootcamp.msclients.services.ITypeCustomerService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ public class TypeCustomerController {
        ===================================== */
 
     @GetMapping
+    @ApiOperation(value = "List all Customer Types", notes="List all customer types of Collections")
     public Mono<ResponseEntity<Flux<TypeCustomer>>> getTypesCustomer() {
         return Mono.just(ResponseEntity
                 .ok()
@@ -40,6 +42,7 @@ public class TypeCustomerController {
        ============================================ */
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get a Customer Type", notes="Get a customer type by Id")
     public Mono<ResponseEntity<TypeCustomer>> getByIdTypeCustomer(@PathVariable String id) {
         return typeCustomerService.findById(id)
                 .map(typeCustomer -> ResponseEntity
@@ -58,6 +61,7 @@ public class TypeCustomerController {
     =============================================== */
 
     @PostMapping
+    @ApiOperation(value = "Create customer Type", notes="Create customer type, check the model please")
     public Mono<ResponseEntity<TypeCustomer>> createTypeCustomer(@Valid @RequestBody TypeCustomer typeCustomer){
         return typeCustomerService.save(typeCustomer)
                 .map(typeCustomerDB -> ResponseEntity
@@ -72,6 +76,7 @@ public class TypeCustomerController {
     =============================================== */
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Update customer Type", notes="Update customer type by ID")
     public Mono<ResponseEntity<TypeCustomer>> updateTypeCustomer(@PathVariable String id, @RequestBody TypeCustomer typeCustomer) {
         return typeCustomerService.update(id, typeCustomer)
                 .map(typeCustomerDB -> ResponseEntity
@@ -86,6 +91,7 @@ public class TypeCustomerController {
     =============================================== */
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete Customer Type", notes="Delete customer type by ID")
     public Mono<ResponseEntity<Void>> deleteByIdTypeCustomer(@PathVariable String id) {
         return typeCustomerService.deleteById(id)
                 .map(typeCustomerDeleted -> ResponseEntity
