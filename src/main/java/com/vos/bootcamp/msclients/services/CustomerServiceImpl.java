@@ -24,7 +24,7 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public Mono<Customer> save(Customer customer) {
+    public Mono<Customer> save(Customer customer)  {
         return repository.save(customer);
     }
 
@@ -44,6 +44,9 @@ public class CustomerServiceImpl implements ICustomerService {
             if (customer.getAddress() == null) customerDB.setAddress(customerDB.getAddress());
             else customerDB.setAddress(customer.getAddress());
 
+            if (customer.getTypeCustomer() == null) customerDB.setTypeCustomer(customerDB.getTypeCustomer());
+            else customerDB.setTypeCustomer(customer.getTypeCustomer());
+
             return repository.save(customerDB);
         });
     }
@@ -55,6 +58,8 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Override
     public Mono<Void> deleteById(String id) {
-        return repository.deleteById(id);
+        return  repository.findById(id)
+                .flatMap( customerDB -> repository.delete(customerDB));
+
     }
 }

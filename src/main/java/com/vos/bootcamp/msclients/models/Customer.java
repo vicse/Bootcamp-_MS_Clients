@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 @Document(collection = "ms_customers")
@@ -30,4 +31,7 @@ public class Customer {
 
     @NotBlank(message = "'Address' is required")
     private String address;
+
+    @Valid
+    private TypeCustomer typeCustomer;
 }

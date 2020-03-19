@@ -5,6 +5,7 @@ import com.vos.bootcamp.msclients.services.ICustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,12 +65,15 @@ public class CustomerController {
     @PostMapping
     @ApiOperation(value = "Create customer", notes="Create customer, check the model please")
     public Mono<ResponseEntity<Customer>> createCustomer(@Valid @RequestBody Customer customer){
+
         return customerService.save(customer)
-                    .map(customerDB -> ResponseEntity
-                            .created(URI.create("/api/customers/".concat(customerDB.getId())))
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .body(customerDB)
-                    );
+                .map(customerDB -> ResponseEntity
+                        .created(URI.create("/api/customers/".concat(customerDB.getId())))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(customerDB)
+                );
+
+
     }
 
 
@@ -82,7 +86,7 @@ public class CustomerController {
     public Mono<ResponseEntity<Customer>> updateCustomer(@PathVariable String id, @RequestBody Customer customer) {
         return customerService.update(id, customer)
                 .map(customerDB -> ResponseEntity
-                        .created(URI.create("/api/customers".concat(customerDB.getId())))
+                        .created(URI.create("/api/customers/".concat(customerDB.getId())))
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(customerDB))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -94,14 +98,12 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete Customer", notes="Delete customer by ID")
-    public Mono<ResponseEntity<Void>> deleteByIdCustomer(@PathVariable String id) {
+    public Mono<ResponseEntity<Object>> deleteByIdCustomer(@PathVariable String id) {
         return customerService.deleteById(id)
-                .map(customer -> ResponseEntity
-                        .ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(customer)
-                )
-                .defaultIfEmpty(ResponseEntity
+                .then(Mono.just(ResponseEntity
+                        .noContent()
+                        .build()
+                )).defaultIfEmpty(ResponseEntity
                         .notFound()
                         .build()
                 );
