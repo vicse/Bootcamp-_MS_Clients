@@ -1,6 +1,7 @@
 package com.vos.bootcamp.msclients.services;
 
 import com.vos.bootcamp.msclients.models.Customer;
+import com.vos.bootcamp.msclients.models.TypeCustomer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -21,5 +22,7 @@ public interface ICustomerService {
     public Mono<Customer> findByNumDoc(String numDoc);
 
     public Mono<Boolean> existsCustomer(String numDoc);
+
+    public Mono<TypeCustomer> getTypeCustomer(String numDoc);
 
 }

@@ -1,6 +1,7 @@
 package com.vos.bootcamp.msclients.services;
 
 import com.vos.bootcamp.msclients.models.Customer;
+import com.vos.bootcamp.msclients.models.TypeCustomer;
 import com.vos.bootcamp.msclients.repositories.ICustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,5 +79,10 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public Mono<Boolean> existsCustomer(String numDoc) {
         return repository.existsByNumIdentityDoc(numDoc);
+    }
+
+    @Override
+    public Mono<TypeCustomer> getTypeCustomer(String numDoc) {
+        return repository.findByNumIdentityDoc(numDoc).flatMap(customer -> Mono.just(customer.getTypeCustomer()));
     }
 }

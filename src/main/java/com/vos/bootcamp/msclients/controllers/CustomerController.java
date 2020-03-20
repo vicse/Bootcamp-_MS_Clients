@@ -1,6 +1,7 @@
 package com.vos.bootcamp.msclients.controllers;
 
 import com.vos.bootcamp.msclients.models.Customer;
+import com.vos.bootcamp.msclients.models.TypeCustomer;
 import com.vos.bootcamp.msclients.services.ICustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,14 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -63,10 +57,10 @@ public class CustomerController {
   /* ===============================================
        Function to obtain a customer by Num Document
   ============================================ */
-  @GetMapping("/findByNumDoc/{numDoc}")
+  @GetMapping("/param")
   @ApiOperation(value = "Get a customer by number Identity Document ", notes = "Get a customer by Id")
-  public Mono<ResponseEntity<Customer>> getCustomerByNumDoc(@PathVariable String numDoc) {
-    return customerService.findByNumDoc(numDoc)
+  public Mono<ResponseEntity<Customer>> getCustomerByNumDoc(@RequestParam String identityDoc) {
+    return customerService.findByNumDoc(identityDoc)
             .map(customer -> ResponseEntity
                     .ok()
                     .contentType(MediaType.APPLICATION_JSON)
@@ -79,9 +73,9 @@ public class CustomerController {
   }
 
   /* ===============================================
-       Function to obtain a customer by id customer
+       Function to know if the customer exists
   ============================================ */
-  @GetMapping("/exists/{numDoc}")
+  @GetMapping("/{numDoc}/exist")
   @ApiOperation(value = "Customer exists", notes = "Validate if customer exists")
   public Mono<ResponseEntity<Boolean>> exitsCustomer(@PathVariable String numDoc) {
     return customerService.existsCustomer(numDoc)
@@ -89,6 +83,24 @@ public class CustomerController {
                     .ok()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(customer)
+            )
+            .defaultIfEmpty(ResponseEntity
+                    .notFound()
+                    .build()
+            );
+  }
+
+  /* ===============================================
+      Function to obtain a customerType by numDoc customer
+ ============================================ */
+  @GetMapping("/{numDoc}/customerType")
+  @ApiOperation(value = "Get Customer Type", notes = "Validate if customer exists")
+  public Mono<ResponseEntity<TypeCustomer>> getCustomerType(@PathVariable String numDoc) {
+    return customerService.getTypeCustomer(numDoc)
+            .map(customerType -> ResponseEntity
+                    .ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(customerType)
             )
             .defaultIfEmpty(ResponseEntity
                     .notFound()
