@@ -92,14 +92,12 @@ public class TypeCustomerController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete Customer Type", notes="Delete customer type by ID")
-    public Mono<ResponseEntity<Void>> deleteByIdTypeCustomer(@PathVariable String id) {
+    public Mono<ResponseEntity<Object>> deleteByIdTypeCustomer(@PathVariable String id) {
         return typeCustomerService.deleteById(id)
-                .map(typeCustomerDeleted -> ResponseEntity
-                        .ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(typeCustomerDeleted)
-                )
-                .defaultIfEmpty(ResponseEntity
+                .then(Mono.just(ResponseEntity
+                        .noContent()
+                        .build()
+                )).defaultIfEmpty(ResponseEntity
                         .notFound()
                         .build()
                 );

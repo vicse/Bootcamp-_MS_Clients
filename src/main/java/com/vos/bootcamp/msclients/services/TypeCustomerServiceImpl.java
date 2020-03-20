@@ -41,7 +41,8 @@ public class TypeCustomerServiceImpl implements ITypeCustomerService {
 
     @Override
     public Mono<Void> deleteById(String id) {
-        return repository.deleteById(id);
+        return repository.findById(id)
+                .flatMap(typeCustomer -> repository.delete(typeCustomer));
     }
 }
 

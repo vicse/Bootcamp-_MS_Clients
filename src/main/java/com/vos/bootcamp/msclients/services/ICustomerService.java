@@ -18,4 +18,8 @@ public interface ICustomerService {
 
     public Mono<Void> deleteById(String id);
 
+    public Mono<Customer> findByNumDoc(String numDoc);
+
+    public Mono<Boolean> existsCustomer(String numDoc);
+
 }

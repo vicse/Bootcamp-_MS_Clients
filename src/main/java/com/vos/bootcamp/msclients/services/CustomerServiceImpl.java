@@ -38,8 +38,15 @@ public class CustomerServiceImpl implements ICustomerService {
             if (customer.getSurnames() == null) customerDB.setSurnames(customerDB.getSurnames());
             else customerDB.setSurnames(customer.getSurnames());
 
+            if (customer.getNumIdentityDoc() == null) customerDB.setNumIdentityDoc(customerDB.getNumIdentityDoc());
+            else customerDB.setNumIdentityDoc(customer.getNumIdentityDoc());
+
+            if (customer.getEmail() == null) customerDB.setEmail(customerDB.getEmail());
+            else customerDB.setEmail(customer.getEmail());
+
             if (customer.getPhoneNumber() == null) customerDB.setPhoneNumber(customerDB.getPhoneNumber());
             else customerDB.setPhoneNumber(customer.getPhoneNumber());
+
 
             if (customer.getAddress() == null) customerDB.setAddress(customerDB.getAddress());
             else customerDB.setAddress(customer.getAddress());
@@ -59,7 +66,17 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public Mono<Void> deleteById(String id) {
         return  repository.findById(id)
-                .flatMap( customerDB -> repository.delete(customerDB));
+                .flatMap( customerDB -> repository.delete(customerDB)
+                );
+    }
 
+    @Override
+    public Mono<Customer> findByNumDoc(String numDoc) {
+        return repository.findByNumIdentityDoc(numDoc);
+    }
+
+    @Override
+    public Mono<Boolean> existsCustomer(String numDoc) {
+        return repository.existsByNumIdentityDoc(numDoc);
     }
 }
