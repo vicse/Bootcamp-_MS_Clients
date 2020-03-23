@@ -11,8 +11,11 @@ import reactor.core.publisher.Mono;
 @Service
 public class CustomerServiceImpl implements ICustomerService {
 
-    @Autowired
-    private ICustomerRepository repository;
+    private final ICustomerRepository repository;
+
+    public CustomerServiceImpl(ICustomerRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public Flux<Customer> findAll() {
