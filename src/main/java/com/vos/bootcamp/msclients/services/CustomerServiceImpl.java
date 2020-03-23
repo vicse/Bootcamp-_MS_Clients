@@ -60,14 +60,10 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public Mono<Void> delete(Customer customer) {
-        return repository.delete(customer);
-    }
-
-    @Override
-    public Mono<Void> deleteById(String id) {
+    public Mono<Customer> deleteById(String id) {
         return  repository.findById(id)
                 .flatMap( customerDB -> repository.delete(customerDB)
+                        .then(Mono.just(customerDB))
                 );
     }
 

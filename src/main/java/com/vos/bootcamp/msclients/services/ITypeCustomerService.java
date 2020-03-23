@@ -14,6 +14,6 @@ public interface ITypeCustomerService {
 
     public Mono<TypeCustomer> update(String id, TypeCustomer TypeCustomer);
 
-    public Mono<Void> deleteById(String id);
+    public Mono<TypeCustomer> deleteById(String id);
     
 }

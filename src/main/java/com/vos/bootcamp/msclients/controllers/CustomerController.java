@@ -10,7 +10,15 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -28,12 +36,8 @@ public class CustomerController {
   ===================================== */
   @GetMapping
   @ApiOperation(value = "List all customers", notes = "List all customers of Collections")
-  public Mono<ResponseEntity<Flux<Customer>>> getCustomers() {
-    return Mono.just(ResponseEntity
-                .ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(customerService.findAll())
-    );
+  public Flux<Customer> getCustomers() {
+    return customerService.findAll();
   }
 
   /* ===============================================
@@ -43,11 +47,7 @@ public class CustomerController {
   @ApiOperation(value = "Get a customer", notes = "Get a customer by Id")
   public Mono<ResponseEntity<Customer>> getByIdCustomer(@PathVariable String id) {
     return customerService.findById(id)
-                .map(customer -> ResponseEntity
-                        .ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(customer)
-                )
+                .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity
                         .notFound()
                         .build()
@@ -61,11 +61,7 @@ public class CustomerController {
   @ApiOperation(value = "Get a customer by number Identity Document ", notes = "Get a customer by Id")
   public Mono<ResponseEntity<Customer>> getCustomerByNumDoc(@RequestParam String identityDoc) {
     return customerService.findByNumDoc(identityDoc)
-            .map(customer -> ResponseEntity
-                    .ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(customer)
-            )
+            .map(ResponseEntity::ok)
             .defaultIfEmpty(ResponseEntity
                     .notFound()
                     .build()
@@ -79,11 +75,7 @@ public class CustomerController {
   @ApiOperation(value = "Customer exists", notes = "Validate if customer exists")
   public Mono<ResponseEntity<Boolean>> exitsCustomer(@PathVariable String numDoc) {
     return customerService.existsCustomer(numDoc)
-            .map(customer -> ResponseEntity
-                    .ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(customer)
-            )
+            .map(ResponseEntity::ok)
             .defaultIfEmpty(ResponseEntity
                     .notFound()
                     .build()
@@ -97,11 +89,7 @@ public class CustomerController {
   @ApiOperation(value = "Get Customer Type", notes = "Validate if customer exists")
   public Mono<ResponseEntity<TypeCustomer>> getCustomerType(@PathVariable String numDoc) {
     return customerService.getTypeCustomer(numDoc)
-            .map(customerType -> ResponseEntity
-                    .ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(customerType)
-            )
+            .map(ResponseEntity::ok)
             .defaultIfEmpty(ResponseEntity
                     .notFound()
                     .build()
@@ -114,7 +102,6 @@ public class CustomerController {
   @PostMapping
   @ApiOperation(value = "Create customer", notes = "Create customer, check the model please")
   public Mono<ResponseEntity<Customer>> createCustomer(@Valid @RequestBody Customer customer) {
-
     return customerService.save(customer)
             .map(customerDB -> ResponseEntity
                     .created(URI.create("/api/customers/".concat(customerDB.getId())))
@@ -147,15 +134,15 @@ public class CustomerController {
   =============================================== */
   @DeleteMapping("/{id}")
   @ApiOperation(value = "Delete Customer", notes = "Delete customer by ID")
-  public Mono<ResponseEntity<Object>> deleteByIdCustomer(@PathVariable String id) {
+  public Mono<ResponseEntity<Void>> deleteByIdCustomer(@PathVariable String id) {
     return customerService.deleteById(id)
-            .then(Mono.just(ResponseEntity
-                    .noContent()
-                    .build()
-            )).defaultIfEmpty(ResponseEntity
+            .map(res -> ResponseEntity
+                    .ok()
+                    .<Void>build())
+            .defaultIfEmpty(ResponseEntity
                     .notFound()
                     .build()
-    );
+            );
 
   }
 

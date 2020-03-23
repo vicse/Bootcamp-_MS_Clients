@@ -15,9 +15,7 @@ public interface ICustomerService {
 
     public Mono<Customer> update(String id, Customer customer);
 
-    public Mono<Void> delete(Customer customer);
-
-    public Mono<Void> deleteById(String id);
+    public Mono<Customer> deleteById(String id);
 
     public Mono<Customer> findByNumDoc(String numDoc);
 
