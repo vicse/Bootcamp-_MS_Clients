@@ -3,6 +3,7 @@ package com.vos.bootcamp.msclients.models;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotBlank;
 @Builder(toBuilder = true)
 public class TypeCustomer {
 
+    @EqualsAndHashCode.Exclude
     @Id
     private String id;
 

@@ -6,7 +6,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.net.URI;
 import javax.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,8 +25,11 @@ import reactor.core.publisher.Mono;
 @Api(value = "Customer Microservice")
 public class TypeCustomerController {
 
-  @Autowired
-  private ITypeCustomerService typeCustomerService;
+  private final ITypeCustomerService typeCustomerService;
+
+  public TypeCustomerController(ITypeCustomerService typeCustomerService) {
+    this.typeCustomerService = typeCustomerService;
+  }
 
   /* =====================================
       Function to List all typesCustomer
