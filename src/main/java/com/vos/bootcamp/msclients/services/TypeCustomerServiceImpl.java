@@ -2,7 +2,6 @@ package com.vos.bootcamp.msclients.services;
 
 import com.vos.bootcamp.msclients.models.TypeCustomer;
 import com.vos.bootcamp.msclients.repositories.ITypeCustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -10,8 +9,11 @@ import reactor.core.publisher.Mono;
 @Service
 public class TypeCustomerServiceImpl implements ITypeCustomerService {
 
-    @Autowired
-    private ITypeCustomerRepository repository;
+    private final ITypeCustomerRepository repository;
+
+    public TypeCustomerServiceImpl(ITypeCustomerRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public Flux<TypeCustomer> findAll() {

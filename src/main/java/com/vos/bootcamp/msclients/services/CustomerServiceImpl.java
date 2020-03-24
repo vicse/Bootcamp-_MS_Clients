@@ -3,7 +3,6 @@ package com.vos.bootcamp.msclients.services;
 import com.vos.bootcamp.msclients.models.Customer;
 import com.vos.bootcamp.msclients.models.TypeCustomer;
 import com.vos.bootcamp.msclients.repositories.ICustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
