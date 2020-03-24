@@ -27,8 +27,11 @@ import reactor.core.publisher.Mono;
 @Api(value = "Customer Microservice")
 public class CustomerController {
 
-  @Autowired
-  private ICustomerService customerService;
+  private final ICustomerService customerService;
+
+  public CustomerController(ICustomerService customerService) {
+    this.customerService = customerService;
+  }
 
 
   /* =====================================
@@ -57,10 +60,10 @@ public class CustomerController {
   /* ===============================================
        Function to obtain a customer by Num Document
   ============================================ */
-  @GetMapping("/param")
+  @GetMapping("/param/identityDoc/{numDoc}")
   @ApiOperation(value = "Get a customer by number Identity Document ", notes = "Get a customer by Id")
-  public Mono<ResponseEntity<Customer>> getCustomerByNumDoc(@RequestParam String identityDoc) {
-    return customerService.findByNumDoc(identityDoc)
+  public Mono<ResponseEntity<Customer>> getCustomerByNumDoc(@PathVariable String numDoc) {
+    return customerService.findByNumDoc(numDoc)
             .map(ResponseEntity::ok)
             .defaultIfEmpty(ResponseEntity
                     .notFound()

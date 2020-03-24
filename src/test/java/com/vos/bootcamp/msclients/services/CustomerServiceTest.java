@@ -1,12 +1,10 @@
-package com.vos.bootcamp.msclients.service;
+package com.vos.bootcamp.msclients.services;
 
 import static org.mockito.Mockito.when;
 
 import com.vos.bootcamp.msclients.models.Customer;
 import com.vos.bootcamp.msclients.models.TypeCustomer;
 import com.vos.bootcamp.msclients.repositories.ICustomerRepository;
-import com.vos.bootcamp.msclients.services.CustomerServiceImpl;
-import com.vos.bootcamp.msclients.services.ICustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
