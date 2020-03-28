@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -28,9 +29,11 @@ public class Customer {
   @NotBlank(message = "'Surnames' are required")
   private String surnames;
 
+  @Indexed(unique = true)
   @NotBlank(message = "'numIdentityDoc' are required")
   private String numIdentityDoc;
 
+  @Indexed(unique = true)
   @NotBlank(message = "'email' are required")
   private String email;
 
