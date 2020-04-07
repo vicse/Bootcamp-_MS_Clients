@@ -23,7 +23,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class CustomerControllerTest {
+public class CustomerControllerIntegrationTest {
 
   @Autowired
   private ApplicationContext applicationContext;
@@ -34,9 +34,11 @@ public class CustomerControllerTest {
   @Autowired
   private ITypeCustomerRepository customerTypeRepository;
 
-  private final TypeCustomer typeCustomer1 = TypeCustomer.builder().name("Type of customer 1").build();
-  private final TypeCustomer typeCustomer2 = TypeCustomer.builder().name("Type of customer 2").build();
-  private final TypeCustomer typeCustomer3 = TypeCustomer.builder().name("Type of customer 3").build();
+  private final TypeCustomer typeCustomer1 = TypeCustomer.builder().name("PERSONAL").build();
+  private final TypeCustomer typeCustomer2 = TypeCustomer.builder().name("EMPRESARIAL").build();
+  private final TypeCustomer typeCustomer3 = TypeCustomer.builder().name("PERSONA VIP").build();
+  private final TypeCustomer typeCustomer4 = TypeCustomer.builder().name("PYME").build();
+  private final TypeCustomer typeCustomer5 = TypeCustomer.builder().name("CORPORATIVO").build();
 
   private WebTestClient client;
 
@@ -56,19 +58,25 @@ public class CustomerControllerTest {
     mongoTemplate.dropCollection("ms_customers").subscribe();
     mongoTemplate.dropCollection("ms_customers_typeCustomer").subscribe();
 
-    Flux<Customer> initData = Flux.just(typeCustomer1,typeCustomer2,typeCustomer3)
+    Flux<Customer> initData = Flux.just(typeCustomer1,typeCustomer2,typeCustomer3,typeCustomer4,typeCustomer5)
             .flatMap(customerTypeRepository::save)
             .thenMany(
               Flux.just(
                 Customer.builder().id("1").names("Vicse").surnames("Ore Soto").numIdentityDoc("75772936")
-                        .email("vicseore@gmail.com").phoneNumber("945026794").address("Calle 1 El Agustino")
+                        .email("vicseore@gmail.com").phoneNumber("945026794").address("Calle 1 - El Agustino")
                         .typeCustomer(typeCustomer1).build(),
                 Customer.builder().id("2").names("Cristian").surnames("Huaynates Soto").numIdentityDoc("34256278")
-                        .email("cheles@gmail.com").phoneNumber("990123568").address("Los frailes 401")
+                        .email("cheles@gmail.com").phoneNumber("990123568").address("Calle Los frailes 401")
                         .typeCustomer(typeCustomer2).build(),
                 Customer.builder().id("3").names("Carlos").surnames("Huaynates Soto").numIdentityDoc("70347856")
-                        .email("galdoz@gmail.com").phoneNumber("993412354").address("Los frailes 401")
-                        .typeCustomer(typeCustomer3).build())
+                        .email("galdoz@gmail.com").phoneNumber("993412354").address("Calle Los frailes 401")
+                        .typeCustomer(typeCustomer3).build(),
+                Customer.builder().id("4").names("Gianella").surnames("De La Cruz Soto").numIdentityDoc("78096543")
+                        .email("giane@gmail.com").phoneNumber("994678900").address("Pjse. Los Geranios 126")
+                        .typeCustomer(typeCustomer4).build(),
+                Customer.builder().id("5").names("Maria Isabel").surnames("Estrada Aguirre").numIdentityDoc("67890123")
+                        .email("marisa96@gmail.com").phoneNumber("968456348").address("Av. La mar 446 - San Miguel")
+                        .typeCustomer(typeCustomer5).build())
               .flatMap(customerRepository::save))
             .thenMany(customerRepository.findAll());
 
